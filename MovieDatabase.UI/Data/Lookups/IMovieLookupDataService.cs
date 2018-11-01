@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using MovieDatabase.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieDatabase.Model;
 
-namespace MovieDatabase.UI.Data
+namespace MovieDatabase.UI.Data.Lookups
 {
     public interface IMovieLookupDataService
     {

@@ -1,4 +1,4 @@
-﻿using MovieDatabase.UI.Data;
+﻿using MovieDatabase.UI.Data.Lookups;
 using MovieDatabase.UI.Event;
 using Prism.Events;
 using System.Collections.ObjectModel;

@@ -1,12 +1,11 @@
 ﻿using MovieDatabase.DataAccess;
 using MovieDatabase.Model;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieDatabase.UI.Data
+namespace MovieDatabase.UI.Data.Lookups
 {
     public class LookupDataService : IMovieLookupDataService
     {
@@ -21,7 +20,7 @@ namespace MovieDatabase.UI.Data
         {
             using (var context = _contextCreator)
             {
-                
+
 
                 return await context.Movies.AsNoTracking()
                       .Select(movie =>

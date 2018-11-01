@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using MovieDatabase.DataAccess;
-using MovieDatabase.UI.Data;
+using MovieDatabase.UI.Data.Lookups;
+using MovieDatabase.UI.Data.Repositories;
+using MovieDatabase.UI.View.Services;
 using MovieDatabase.UI.ViewModel;
 using Prism.Events;
 
@@ -18,11 +20,13 @@ namespace MovieDatabase.UI.Startup
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 
+            builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
+
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<MovieDetailViewModel>().As<IMovieDetailViewModel>();
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
-            builder.RegisterType<MovieDataService>().As<IMovieDataService>();
+            builder.RegisterType<MovieRepository>().As<IMovieRepository>();
 
             return builder.Build();
 

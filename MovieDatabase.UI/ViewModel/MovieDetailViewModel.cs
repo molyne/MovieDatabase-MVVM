@@ -1,4 +1,4 @@
-﻿using MovieDatabase.UI.Data;
+﻿using MovieDatabase.UI.Data.Repositories;
 using MovieDatabase.UI.Event;
 using MovieDatabase.UI.Wrapper;
 using Prism.Commands;
@@ -10,23 +10,35 @@ namespace MovieDatabase.UI.ViewModel
 {
     public class MovieDetailViewModel : ViewModelBase, IMovieDetailViewModel
     {
-        private readonly IMovieDataService _dataService;
+        private readonly IMovieRepository _movieRepository;
         private readonly IEventAggregator _eventAggregator;
         private MovieWrapper _movie;
-        public ICommand SaveCommand { get; }
+        private bool _hasChanges;
 
-        public MovieDetailViewModel(IMovieDataService dataService, IEventAggregator eventAggregator)
+        public MovieDetailViewModel(IMovieRepository movieRepository, IEventAggregator eventAggregator)
         {
-            _dataService = dataService;
+            _movieRepository = movieRepository;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenMovieDetailViewEvent>().Subscribe(OnOpenMovieDetailView);
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         public async Task LoadAsync(int movieId)
         {
-            var movie = await _dataService.GetByIdAsync(movieId);
+            var movie = await _movieRepository.GetByIdAsync(movieId);
             Movie = new MovieWrapper(movie);
+            Movie.PropertyChanged += (s, e) =>
+            {
+                if (!HasChanges)
+                {
+                    HasChanges = _movieRepository.HasChanges();
+                }
+
+                if (e.PropertyName == nameof(Movie.HasErrors))
+                {
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+            };
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         public MovieWrapper Movie
@@ -38,16 +50,17 @@ namespace MovieDatabase.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public ICommand SaveCommand { get; }
 
         private bool OnSaveCanExecute()
         {
-            //TODO check if friend is valid
-            return true;
+            return Movie != null && !Movie.HasErrors && HasChanges;
         }
 
         private async void OnSaveExecute()
         {
-            await _dataService.SaveAsync(Movie.Model);
+            await _movieRepository.SaveAsync();
+            HasChanges = _movieRepository.HasChanges();
             _eventAggregator.GetEvent<AfterMovieSavedEvent>().Publish(
                 new AfterMovieSavedEventArgs
                 {
@@ -57,9 +70,18 @@ namespace MovieDatabase.UI.ViewModel
                 );
         }
 
-        private async void OnOpenMovieDetailView(int movieId)
+        public bool HasChanges
         {
-            await LoadAsync(movieId);
+            get => _hasChanges;
+            set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+            }
         }
     }
 }
