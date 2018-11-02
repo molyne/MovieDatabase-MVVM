@@ -34,23 +34,7 @@ namespace MovieDatabase.UI.ViewModel
             Movies.Clear();
             foreach (var item in lookup)
             {
-                Movies.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
-            }
-        }
-
-        private NavigationItemViewModel _selectedMovie;
-        public NavigationItemViewModel SelectedMovie
-        {
-            get => _selectedMovie;
-            set
-            {
-                _selectedMovie = value;
-                OnPropertyChanged();
-                if (_selectedMovie != null)
-                {
-                    _eventAggregator.GetEvent<OpenMovieDetailViewEvent>()
-                        .Publish(_selectedMovie.Id);
-                }
+                Movies.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
             }
         }
     }
