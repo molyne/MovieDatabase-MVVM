@@ -40,8 +40,8 @@ namespace MovieDatabase.DataAccess.Migrations
 
             context.SaveChanges();
 
-            context.Directors.AddOrUpdate(d => d.FirstName,
-                new Director { FirstName = "Chris", LastName = "Columbus", MovieId = context.Movies.First().Id });
+            context.Directors.AddOrUpdate(d => d.Name,
+                new Director { Name = "Chris Columbus", MovieId = context.Movies.First().Id });
         }
     }
 }

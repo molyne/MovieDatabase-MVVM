@@ -7,9 +7,8 @@ namespace MovieDatabase.Model
         public int Id { get; set; }
         [Required]
         [StringLength(50)]
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-
+        [RegularExpression("[A-Za-z ]*", ErrorMessage = "Invalid Name ")]
+        public string Name { get; set; }
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
     }

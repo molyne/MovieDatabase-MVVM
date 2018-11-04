@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201811041431297_AddedDuration.Designer.cs">
       <DependentUpon>201811041431297_AddedDuration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811041715435_ChangedDirector.cs" />
+    <Compile Include="Migrations\201811041715435_ChangedDirector.Designer.cs">
+      <DependentUpon>201811041715435_ChangedDirector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MovieDatabaseDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811041431297_AddedDuration.resx">
       <DependentUpon>201811041431297_AddedDuration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811041715435_ChangedDirector.resx">
+      <DependentUpon>201811041715435_ChangedDirector.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

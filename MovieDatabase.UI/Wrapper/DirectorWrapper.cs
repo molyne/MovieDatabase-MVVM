@@ -9,7 +9,7 @@ namespace MovieDatabase.UI.Wrapper
 
         }
 
-        public string FirstName
+        public string Name
         {
             get => GetValue<string>();
             set => SetValue(value);
