@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Lookups\IMovieLookupDataService.cs" />
     <Compile Include="Data\Lookups\LookupDataService.cs" />
+    <Compile Include="Event\AfterMovieDeletedEvent.cs" />
     <Compile Include="Event\AfterMovieSavedEvent.cs" />
     <Compile Include="Event\OpenMovieDetailViewEvent.cs" />
     <Compile Include="Properties\Annotations.cs" />

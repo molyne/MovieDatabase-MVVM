@@ -27,5 +27,15 @@ namespace MovieDatabase.UI.Data.Repositories
         {
             return _context.ChangeTracker.HasChanges();
         }
+
+        public void Add(Movie movie)
+        {
+            _context.Movies.Add(movie);
+        }
+
+        public void Remove(Movie model)
+        {
+            _context.Movies.Remove(model);
+        }
     }
 }

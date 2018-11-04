@@ -11,7 +11,6 @@ namespace MovieDatabase.UI.ViewModel
     {
         private readonly IMovieLookupDataService _movieLookupService;
         private readonly IEventAggregator _eventAggregator;
-        public ObservableCollection<NavigationItemViewModel> Movies { get; }
 
         public NavigationViewModel(IMovieLookupDataService movieLookupService, IEventAggregator eventAggregator)
         {
@@ -19,14 +18,11 @@ namespace MovieDatabase.UI.ViewModel
             _eventAggregator = eventAggregator;
             Movies = new ObservableCollection<NavigationItemViewModel>();
             _eventAggregator.GetEvent<AfterMovieSavedEvent>().Subscribe(AfterMovieSaved);
+            _eventAggregator.GetEvent<AfterMovieDeletedEvent>().Subscribe(AfterMovieDeleted);
 
         }
 
-        private void AfterMovieSaved(AfterMovieSavedEventArgs obj)
-        {
-            var lookupItem = Movies.Single(m => m.Id == obj.Id);
-            lookupItem.DisplayMember = obj.DisplayMember;
-        }
+        public ObservableCollection<NavigationItemViewModel> Movies { get; }
 
         public async Task LoadAsync()
         {
@@ -35,6 +31,28 @@ namespace MovieDatabase.UI.ViewModel
             foreach (var item in lookup)
             {
                 Movies.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
+            }
+        }
+
+        private void AfterMovieDeleted(int movieId)
+        {
+            var movie = Movies.SingleOrDefault(m => m.Id == movieId);
+            if (movie != null)
+            {
+                Movies.Remove(movie);
+            }
+        }
+
+        private void AfterMovieSaved(AfterMovieSavedEventArgs obj)
+        {
+            var lookupItem = Movies.SingleOrDefault(m => m.Id == obj.Id);
+            if (lookupItem == null)
+            {
+                Movies.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggregator));
+            }
+            else
+            {
+                lookupItem.DisplayMember = obj.DisplayMember;
             }
         }
     }

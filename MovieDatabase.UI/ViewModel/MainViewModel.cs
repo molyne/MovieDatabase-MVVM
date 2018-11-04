@@ -1,8 +1,10 @@
 ﻿using MovieDatabase.UI.Event;
 using MovieDatabase.UI.View.Services;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MovieDatabase.UI.ViewModel
 {
@@ -13,18 +15,25 @@ namespace MovieDatabase.UI.ViewModel
         private readonly Func<IMovieDetailViewModel> _movieDetailViewModelCreator;
         private IMovieDetailViewModel _movieDetailViewModel;
 
-
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IMovieDetailViewModel> movieDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _movieDetailViewModelCreator = movieDetailViewModelCreator;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenMovieDetailViewEvent>().Subscribe(OnOpenMovieDetailView);
+
+            _eventAggregator.GetEvent<OpenMovieDetailViewEvent>()
+                .Subscribe(OnOpenMovieDetailView);
+            _eventAggregator.GetEvent<AfterMovieDeletedEvent>()
+                .Subscribe(AfterFriendDeleted);
+
+            CreateNewMovieCommand = new DelegateCommand(OnCreateNewFriendExecute);
+
             NavigationViewModel = navigationViewModel;
         }
 
-        public INavigationViewModel NavigationViewModel { get; }
+        public ICommand CreateNewMovieCommand { get; }
 
+        public INavigationViewModel NavigationViewModel { get; }
 
         public IMovieDetailViewModel MovieDetailViewModel
         {
@@ -36,7 +45,8 @@ namespace MovieDatabase.UI.ViewModel
         {
             await NavigationViewModel.LoadAsync();
         }
-        private async void OnOpenMovieDetailView(int movieId)
+
+        private async void OnOpenMovieDetailView(int? movieId)
         {
             if (MovieDetailViewModel != null && MovieDetailViewModel.HasChanges)
             {
@@ -48,6 +58,16 @@ namespace MovieDatabase.UI.ViewModel
             }
             MovieDetailViewModel = _movieDetailViewModelCreator();
             await MovieDetailViewModel.LoadAsync(movieId);
+        }
+
+        private void OnCreateNewFriendExecute()
+        {
+            OnOpenMovieDetailView(null);
+        }
+
+        private void AfterFriendDeleted(int movieId)
+        {
+            MovieDetailViewModel = null;
         }
 
     }

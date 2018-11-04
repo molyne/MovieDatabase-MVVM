@@ -1,4 +1,5 @@
-﻿using MovieDatabase.UI.Data.Repositories;
+﻿using MovieDatabase.Model;
+using MovieDatabase.UI.Data.Repositories;
 using MovieDatabase.UI.Event;
 using MovieDatabase.UI.Wrapper;
 using Prism.Commands;
@@ -20,11 +21,14 @@ namespace MovieDatabase.UI.ViewModel
             _movieRepository = movieRepository;
             _eventAggregator = eventAggregator;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute);
         }
 
-        public async Task LoadAsync(int movieId)
+        public async Task LoadAsync(int? movieId)
         {
-            var movie = await _movieRepository.GetByIdAsync(movieId);
+            var movie = movieId.HasValue
+                ? await _movieRepository.GetByIdAsync(movieId.Value)
+                : CreateNewMovie();
             Movie = new MovieWrapper(movie);
             Movie.PropertyChanged += (s, e) =>
             {
@@ -39,6 +43,11 @@ namespace MovieDatabase.UI.ViewModel
                 }
             };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            if (Movie.Id == 0)
+            {
+                //Little trick to trigger the validation
+                Movie.Title = "";
+            }
         }
 
         public MovieWrapper Movie
@@ -51,6 +60,21 @@ namespace MovieDatabase.UI.ViewModel
             }
         }
         public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+        public bool HasChanges
+        {
+            get => _hasChanges;
+            set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+            }
+        }
 
         private bool OnSaveCanExecute()
         {
@@ -67,21 +91,23 @@ namespace MovieDatabase.UI.ViewModel
                     Id = Movie.Id,
                     DisplayMember = $"{Movie.Title}"
                 }
-                );
+            );
         }
 
-        public bool HasChanges
+        private Movie CreateNewMovie()
         {
-            get => _hasChanges;
-            set
-            {
-                if (_hasChanges != value)
-                {
-                    _hasChanges = value;
-                    OnPropertyChanged();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                }
-            }
+            var movie = new Movie();
+
+            _movieRepository.Add(movie);
+
+            return movie;
+        }
+
+        private async void OnDeleteExecute()
+        {
+            _movieRepository.Remove(Movie.Model);
+            await _movieRepository.SaveAsync();
+            _eventAggregator.GetEvent<AfterMovieDeletedEvent>().Publish(Movie.Id);
         }
     }
 }

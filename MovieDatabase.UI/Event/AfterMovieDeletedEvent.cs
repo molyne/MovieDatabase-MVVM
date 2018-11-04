@@ -2,7 +2,7 @@
 
 namespace MovieDatabase.UI.Event
 {
-    public class OpenMovieDetailViewEvent : PubSubEvent<int?>
+    public class AfterMovieDeletedEvent : PubSubEvent<int>
     {
     }
 }
