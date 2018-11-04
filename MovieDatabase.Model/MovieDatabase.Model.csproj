@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Director.cs" />
+    <Compile Include="Genre.cs" />
     <Compile Include="LookupItem.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

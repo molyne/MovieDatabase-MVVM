@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:MovieDatabase.UI.ViewModel"
 
         mc:Ignorable="d"
-        Title="MovieDatabase" Height="450" Width="800" FontSize="20">
+        Title="MovieDatabase" Height="700" Width="1000" FontSize="20" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:MovieDetailViewModel}">
             <view:MovieDetailView/>

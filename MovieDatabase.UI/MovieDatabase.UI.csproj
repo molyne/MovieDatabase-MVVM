@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\Lookups\IGenreLookupDataService.cs" />
     <Compile Include="Data\Lookups\IMovieLookupDataService.cs" />
     <Compile Include="Data\Lookups\LookupDataService.cs" />
     <Compile Include="Event\AfterMovieDeletedEvent.cs" />
@@ -89,6 +90,7 @@
     </Compile>
     <Compile Include="View\Services\IMessageDialogService.cs" />
     <Compile Include="View\Services\MessageDialogService.cs" />
+    <Compile Include="Wrapper\DirectorWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\MovieWrapper.cs" />
     <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />

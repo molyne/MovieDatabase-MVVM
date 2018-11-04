@@ -15,7 +15,9 @@ namespace MovieDatabase.UI.Data.Repositories
         }
         public async Task<Movie> GetByIdAsync(int id)
         {
-            return await _context.Movies.SingleAsync(movie => movie.Id == id);
+            return await _context.Movies
+                .Include(d => d.Directors)
+                .SingleAsync(movie => movie.Id == id);
         }
 
         public async Task SaveAsync()

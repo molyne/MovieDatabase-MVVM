@@ -1,8 +1,8 @@
 using MovieDatabase.Model;
+using System.Linq;
 
 namespace MovieDatabase.DataAccess.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MovieDatabase.DataAccess.MovieDatabaseDbContext>
@@ -20,15 +20,28 @@ namespace MovieDatabase.DataAccess.Migrations
             //  to avoid creating duplicate seed data.
 
 
-            context.Movies.AddOrUpdate(movie => movie.Title, new Movie
-            {
-                Title = "Harry Potter och de vises sten",
-                Duration = new TimeSpan(2, 32, 0)
-            },
+            context.Movies.AddOrUpdate(movie => movie.Title,
+                new Movie { Title = "Harry Potter och de vises sten" },
                 new Movie { Title = "Star Wars" },
                 new Movie { Title = "Lejonkungen" },
                 new Movie { Title = "Mr Bean" });
 
+            context.Genres.AddOrUpdate(g => g.Name,
+                new Genre { Name = "Horror" },
+                new Genre { Name = "Romance" },
+                new Genre { Name = "Drama" },
+                new Genre { Name = "Thriller" },
+                new Genre { Name = "Action" },
+                new Genre { Name = "Adventure" },
+                new Genre { Name = "Sci-fi" },
+                new Genre { Name = "Fantasy" },
+                new Genre { Name = "Animated" }
+                );
+
+            context.SaveChanges();
+
+            context.Directors.AddOrUpdate(d => d.FirstName,
+                new Director { FirstName = "Chris", LastName = "Columbus", MovieId = context.Movies.First().Id });
         }
     }
 }
