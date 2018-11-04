@@ -17,8 +17,8 @@ namespace MovieDatabase.UI.ViewModel
             _movieLookupService = movieLookupService;
             _eventAggregator = eventAggregator;
             Movies = new ObservableCollection<NavigationItemViewModel>();
-            _eventAggregator.GetEvent<AfterMovieSavedEvent>().Subscribe(AfterMovieSaved);
-            _eventAggregator.GetEvent<AfterMovieDeletedEvent>().Subscribe(AfterMovieDeleted);
+            _eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
 
         }
 
@@ -30,29 +30,42 @@ namespace MovieDatabase.UI.ViewModel
             Movies.Clear();
             foreach (var item in lookup)
             {
-                Movies.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
+                Movies.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, nameof(MovieDetailViewModel), _eventAggregator));
             }
         }
 
-        private void AfterMovieDeleted(int movieId)
+        private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
-            var movie = Movies.SingleOrDefault(m => m.Id == movieId);
-            if (movie != null)
+            switch (args.ViewModelName)
             {
-                Movies.Remove(movie);
+                case nameof(MovieDetailViewModel):
+
+                    var movie = Movies.SingleOrDefault(m => m.Id == args.Id);
+                    if (movie != null)
+                    {
+                        Movies.Remove(movie);
+                    }
+                    break;
             }
         }
 
-        private void AfterMovieSaved(AfterMovieSavedEventArgs obj)
+        private void AfterDetailSaved(AfterDetailSavedEventArgs obj)
         {
-            var lookupItem = Movies.SingleOrDefault(m => m.Id == obj.Id);
-            if (lookupItem == null)
+            switch (obj.ViewModelName)
             {
-                Movies.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggregator));
-            }
-            else
-            {
-                lookupItem.DisplayMember = obj.DisplayMember;
+                case nameof(MovieDetailViewModel):
+
+                    var lookupItem = Movies.SingleOrDefault(m => m.Id == obj.Id);
+                    if (lookupItem == null)
+                    {
+                        Movies.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, nameof(MovieDetailViewModel),
+                            _eventAggregator));
+                    }
+                    else
+                    {
+                        lookupItem.DisplayMember = obj.DisplayMember;
+                    }
+                    break;
             }
         }
     }

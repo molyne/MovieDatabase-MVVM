@@ -1,7 +1,6 @@
 ﻿using MovieDatabase.Model;
 using MovieDatabase.UI.Data.Lookups;
 using MovieDatabase.UI.Data.Repositories;
-using MovieDatabase.UI.Event;
 using MovieDatabase.UI.View.Services;
 using MovieDatabase.UI.Wrapper;
 using Prism.Commands;
@@ -15,25 +14,21 @@ using System.Windows.Input;
 
 namespace MovieDatabase.UI.ViewModel
 {
-    public class MovieDetailViewModel : ViewModelBase, IMovieDetailViewModel
+    public class MovieDetailViewModel : DetailViewModelBase, IMovieDetailViewModel
     {
         private readonly IMovieRepository _movieRepository;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private readonly IGenreLookupDataService _genreLookupDataService;
         private MovieWrapper _movie;
-        private bool _hasChanges;
         private DirectorWrapper _selectedDirector;
 
         public MovieDetailViewModel(IMovieRepository movieRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IGenreLookupDataService genreLookupDataService)
+        : base(eventAggregator)
         {
             _movieRepository = movieRepository;
-            _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _genreLookupDataService = genreLookupDataService;
 
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            DeleteCommand = new DelegateCommand(OnDeleteExecute);
             AddDirectorCommand = new DelegateCommand(OnAddDirectorExecute);
             RemoveDirectorCommand = new DelegateCommand(OnRemoveDirectorExecute, OnRemoveDirectorCanExecute);
 
@@ -44,7 +39,7 @@ namespace MovieDatabase.UI.ViewModel
         public ObservableCollection<LookupItem> Genres { get; set; }
         public ObservableCollection<DirectorWrapper> Directors { get; }
 
-        public async Task LoadAsync(int? movieId)
+        public override async Task LoadAsync(int? movieId)
         {
             var movie = movieId.HasValue
                 ? await _movieRepository.GetByIdAsync(movieId.Value)
@@ -66,14 +61,13 @@ namespace MovieDatabase.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
+
         public ICommand AddDirectorCommand { get; }
         public ICommand RemoveDirectorCommand { get; }
 
         public DirectorWrapper SelectedDirector
         {
-            get { return _selectedDirector; }
+            get => _selectedDirector;
             set
             {
                 _selectedDirector = value;
@@ -82,21 +76,7 @@ namespace MovieDatabase.UI.ViewModel
             }
         }
 
-        public bool HasChanges
-        {
-            get => _hasChanges;
-            set
-            {
-                if (_hasChanges != value)
-                {
-                    _hasChanges = value;
-                    OnPropertyChanged();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        private bool OnSaveCanExecute()
+        protected override bool OnSaveCanExecute()
         {
             return Movie != null
                    && !Movie.HasErrors
@@ -104,17 +84,25 @@ namespace MovieDatabase.UI.ViewModel
                    && HasChanges;
         }
 
-        private async void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
             await _movieRepository.SaveAsync();
             HasChanges = _movieRepository.HasChanges();
-            _eventAggregator.GetEvent<AfterMovieSavedEvent>().Publish(
-                new AfterMovieSavedEventArgs
-                {
-                    Id = Movie.Id,
-                    DisplayMember = $"{Movie.Title}"
-                }
-            );
+            RaiseDetailSavedEvent(Movie.Id, Movie.Title);
+        }
+
+        protected override async void OnDeleteExecute()
+        {
+            var result =
+                _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the movie {Movie.Title}?",
+                    "Question");
+
+            if (result == MessageDialogResult.OK)
+            {
+                _movieRepository.Remove(Movie.Model);
+                await _movieRepository.SaveAsync();
+                RaiseDetailDeletedEvent(Movie.Id);
+            }
         }
 
         private Movie CreateNewMovie()
@@ -124,19 +112,6 @@ namespace MovieDatabase.UI.ViewModel
             _movieRepository.Add(movie);
 
             return movie;
-        }
-
-        private async void OnDeleteExecute()
-        {
-            var result =
-                _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the movie {Movie.Title}?",
-                    "Question");
-
-            if (result == MessageDialogResult.OK)
-            {
-                _movieRepository.Remove(Movie.Model);
-                await _movieRepository.SaveAsync(); _eventAggregator.GetEvent<AfterMovieDeletedEvent>().Publish(Movie.Id);
-            }
         }
 
         private void InitializeMovie(Movie movie)
@@ -175,7 +150,12 @@ namespace MovieDatabase.UI.ViewModel
 
         private void OnRemoveDirectorExecute()
         {
-            //TODO Implement this       
+            SelectedDirector.PropertyChanged -= DirectorWrapper_PropertyChanged;
+            _movieRepository.RemoveDirector(SelectedDirector.Model);
+            Directors.Remove(SelectedDirector);
+            SelectedDirector = null;
+            HasChanges = _movieRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         private bool OnRemoveDirectorCanExecute()
@@ -185,7 +165,11 @@ namespace MovieDatabase.UI.ViewModel
 
         private void OnAddDirectorExecute()
         {
-            //TODO Implement this
+            var newDirector = new DirectorWrapper(new Director());
+            newDirector.PropertyChanged += DirectorWrapper_PropertyChanged;
+            Directors.Add(newDirector);
+            Movie.Model.Directors.Add(newDirector.Model);
+            newDirector.Name = ""; //Trigger validation
         }
 
         private void DirectorWrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -200,6 +184,7 @@ namespace MovieDatabase.UI.ViewModel
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
+
         private void InitializeDirectors(ICollection<Director> directors)
         {
             foreach (var wrapper in Directors)

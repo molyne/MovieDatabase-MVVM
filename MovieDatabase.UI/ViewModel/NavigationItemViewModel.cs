@@ -8,15 +8,17 @@ namespace MovieDatabase.UI.ViewModel
     public class NavigationItemViewModel : ViewModelBase
     {
         private string _displayMember;
+        private readonly string _detailViewModelName;
         private readonly IEventAggregator _eventAggregator;
         public int Id { get; }
 
-        public NavigationItemViewModel(int id, string displayMember, IEventAggregator eventAggregator)
+        public NavigationItemViewModel(int id, string displayMember, string detailViewModelName, IEventAggregator eventAggregator)
         {
             Id = id;
             _displayMember = displayMember;
+            _detailViewModelName = detailViewModelName;
             _eventAggregator = eventAggregator;
-            OpenMovieDetailViewCommand = new DelegateCommand(OnOpenMovieDetailView);
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
         }
 
         public string DisplayMember
@@ -28,12 +30,17 @@ namespace MovieDatabase.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ICommand OpenMovieDetailViewCommand { get; }
+        public ICommand OpenDetailViewCommand { get; }
 
-        private void OnOpenMovieDetailView()
+        private void OnOpenDetailViewExecute()
         {
-            _eventAggregator.GetEvent<OpenMovieDetailViewEvent>()
-                .Publish(Id);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                .Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = Id,
+                    ViewModelName = _detailViewModelName
+                });
         }
     }
 }

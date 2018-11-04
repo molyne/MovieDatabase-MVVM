@@ -13,7 +13,7 @@ namespace MovieDatabase.UI.ViewModel
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private readonly Func<IMovieDetailViewModel> _movieDetailViewModelCreator;
-        private IMovieDetailViewModel _movieDetailViewModel;
+        private IDetailViewModel _detailViewModel;
 
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IMovieDetailViewModel> movieDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
@@ -21,24 +21,24 @@ namespace MovieDatabase.UI.ViewModel
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
 
-            _eventAggregator.GetEvent<OpenMovieDetailViewEvent>()
-                .Subscribe(OnOpenMovieDetailView);
-            _eventAggregator.GetEvent<AfterMovieDeletedEvent>()
-                .Subscribe(AfterFriendDeleted);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                .Subscribe(OnOpenDetailView);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>()
+                .Subscribe(AfterDetailDeleted);
 
-            CreateNewMovieCommand = new DelegateCommand(OnCreateNewFriendExecute);
+            CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
 
             NavigationViewModel = navigationViewModel;
         }
 
-        public ICommand CreateNewMovieCommand { get; }
+        public ICommand CreateNewDetailCommand { get; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public IMovieDetailViewModel MovieDetailViewModel
+        public IDetailViewModel DetailViewModel
         {
-            get => _movieDetailViewModel;
-            private set { _movieDetailViewModel = value; OnPropertyChanged(); }
+            get => _detailViewModel;
+            private set { _detailViewModel = value; OnPropertyChanged(); }
         }
 
         public async Task LoadAsync()
@@ -46,9 +46,9 @@ namespace MovieDatabase.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        private async void OnOpenMovieDetailView(int? movieId)
+        private async void OnOpenDetailView(OpenDetailViewEventArgs args)
         {
-            if (MovieDetailViewModel != null && MovieDetailViewModel.HasChanges)
+            if (DetailViewModel != null && DetailViewModel.HasChanges)
             {
                 var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
                 if (result == MessageDialogResult.Cancel)
@@ -56,18 +56,25 @@ namespace MovieDatabase.UI.ViewModel
                     return;
                 }
             }
-            MovieDetailViewModel = _movieDetailViewModelCreator();
-            await MovieDetailViewModel.LoadAsync(movieId);
+
+            switch (args.ViewModelName)
+            {
+                case nameof(MovieDetailViewModel):
+                    DetailViewModel = _movieDetailViewModelCreator();
+                    break;
+            }
+            DetailViewModel = _movieDetailViewModelCreator();
+            await DetailViewModel.LoadAsync(args.Id);
         }
 
-        private void OnCreateNewFriendExecute()
+        private void OnCreateNewDetailExecute(Type viewModelType)
         {
-            OnOpenMovieDetailView(null);
+            OnOpenDetailView(new OpenDetailViewEventArgs { ViewModelName = viewModelType.Name });
         }
 
-        private void AfterFriendDeleted(int movieId)
+        private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
-            MovieDetailViewModel = null;
+            DetailViewModel = null;
         }
 
     }

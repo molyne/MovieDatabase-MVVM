@@ -5,39 +5,23 @@ using System.Threading.Tasks;
 
 namespace MovieDatabase.UI.Data.Repositories
 {
-    public class MovieRepository : IMovieRepository
+    public class MovieRepository : GenericRepository<Movie, MovieDatabaseDbContext>, IMovieRepository
     {
-        private readonly MovieDatabaseDbContext _context;
-
         public MovieRepository(MovieDatabaseDbContext context)
+        : base(context)
         {
-            _context = context;
+
         }
-        public async Task<Movie> GetByIdAsync(int id)
+        public override async Task<Movie> GetByIdAsync(int id)
         {
-            return await _context.Movies
+            return await Context.Movies
                 .Include(d => d.Directors)
                 .SingleAsync(movie => movie.Id == id);
         }
 
-        public async Task SaveAsync()
+        public void RemoveDirector(Director selectedDirectorModel)
         {
-            await _context.SaveChangesAsync();
-        }
-
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
-        }
-
-        public void Add(Movie movie)
-        {
-            _context.Movies.Add(movie);
-        }
-
-        public void Remove(Movie model)
-        {
-            _context.Movies.Remove(model);
+            Context.Directors.Remove(selectedDirectorModel);
         }
     }
 }

@@ -46,7 +46,11 @@
                       AutoGenerateColumns="False"
                       RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Directors" Width="*" Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Directors" 
+                                        Width="*" 
+                                        ElementStyle="{StaticResource DataGridColumnStyle}"
+                                        EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
+                                        Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
