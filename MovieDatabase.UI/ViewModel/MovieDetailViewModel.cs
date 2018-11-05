@@ -151,7 +151,7 @@ namespace MovieDatabase.UI.ViewModel
         private void OnRemoveActorExecute()
         {
             SelectedActor.PropertyChanged -= ActorWrapper_PropertyChanged;
-            _movieRepository.RemoveDirector(SelectedActor.Model);
+            _movieRepository.RemoveActor(SelectedActor.Model);
             Actors.Remove(SelectedActor);
             SelectedActor = null;
             HasChanges = _movieRepository.HasChanges();

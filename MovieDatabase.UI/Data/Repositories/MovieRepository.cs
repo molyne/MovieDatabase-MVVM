@@ -19,9 +19,9 @@ namespace MovieDatabase.UI.Data.Repositories
                 .SingleAsync(movie => movie.Id == id);
         }
 
-        public void RemoveDirector(Actor selectedActorModel)
+        public void RemoveActor(Actor selectedActorModel)
         {
-            Context.Directors.Remove(selectedActorModel);
+            Context.Actors.Remove(selectedActorModel);
         }
     }
 }

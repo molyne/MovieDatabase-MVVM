@@ -7,12 +7,12 @@ namespace MovieDatabase.DataAccess.Migrations
     {
         public override void Up()
         {
-            RenameTable(name: "dbo.Directors", newName: "Actors");
+            RenameTable(name: "dbo.Actors", newName: "Actors");
         }
         
         public override void Down()
         {
-            RenameTable(name: "dbo.Actors", newName: "Directors");
+            RenameTable(name: "dbo.Actors", newName: "Actors");
         }
     }
 }

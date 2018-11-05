@@ -40,7 +40,7 @@ namespace MovieDatabase.DataAccess.Migrations
 
             context.SaveChanges();
 
-            context.Directors.AddOrUpdate(d => d.Name,
+            context.Actors.AddOrUpdate(d => d.Name,
                 new Actor { Name = "Daniel Radcliffe", MovieId = context.Movies.First().Id });
         }
     }
