@@ -1,8 +1,9 @@
-﻿<Window x:Class="MovieDatabase.UI.MainWindow"
+﻿<Controls:MetroWindow x:Class="MovieDatabase.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:MovieDatabase.UI"
         xmlns:view="clr-namespace:MovieDatabase.UI.View"
         xmlns:viewModel="clr-namespace:MovieDatabase.UI.ViewModel"
@@ -33,4 +34,4 @@
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailViewModel}"/>
         
     </Grid>
-</Window>
+</Controls:MetroWindow>

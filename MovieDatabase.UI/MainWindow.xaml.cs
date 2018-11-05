@@ -1,4 +1,5 @@
-﻿using MovieDatabase.UI.ViewModel;
+﻿using MahApps.Metro.Controls;
+using MovieDatabase.UI.ViewModel;
 using System.Windows;
 
 namespace MovieDatabase.UI
@@ -6,7 +7,7 @@ namespace MovieDatabase.UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private readonly MainViewModel _viewModel;
 
