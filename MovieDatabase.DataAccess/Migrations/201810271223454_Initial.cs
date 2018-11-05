@@ -7,7 +7,7 @@ namespace MovieDatabase.DataAccess.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Directors",
+                "dbo.Actors",
                 c => new
                 {
                     Id = c.Int(nullable: false, identity: true),
@@ -27,17 +27,17 @@ namespace MovieDatabase.DataAccess.Migrations
                     Director_Id = c.Int(),
                 })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Directors", t => t.Director_Id)
+                .ForeignKey("dbo.Actors", t => t.Director_Id)
                 .Index(t => t.Director_Id);
 
         }
 
         public override void Down()
         {
-            DropForeignKey("dbo.Movies", "Director_Id", "dbo.Directors");
+            DropForeignKey("dbo.Movies", "Director_Id", "dbo.Actors");
             DropIndex("dbo.Movies", new[] { "Director_Id" });
             DropTable("dbo.Movies");
-            DropTable("dbo.Directors");
+            DropTable("dbo.Actors");
         }
     }
 }

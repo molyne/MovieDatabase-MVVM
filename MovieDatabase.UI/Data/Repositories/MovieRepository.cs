@@ -15,13 +15,13 @@ namespace MovieDatabase.UI.Data.Repositories
         public override async Task<Movie> GetByIdAsync(int id)
         {
             return await Context.Movies
-                .Include(d => d.Directors)
+                .Include(d => d.Actors)
                 .SingleAsync(movie => movie.Id == id);
         }
 
-        public void RemoveDirector(Director selectedDirectorModel)
+        public void RemoveDirector(Actor selectedActorModel)
         {
-            Context.Directors.Remove(selectedDirectorModel);
+            Context.Directors.Remove(selectedActorModel);
         }
     }
 }

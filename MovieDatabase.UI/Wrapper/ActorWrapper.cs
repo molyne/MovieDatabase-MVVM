@@ -2,9 +2,9 @@
 
 namespace MovieDatabase.UI.Wrapper
 {
-    public class DirectorWrapper : ModelWrapper<Director>
+    public class ActorWrapper : ModelWrapper<Actor>
     {
-        public DirectorWrapper(Director model) : base(model)
+        public ActorWrapper(Actor model) : base(model)
         {
 
         }

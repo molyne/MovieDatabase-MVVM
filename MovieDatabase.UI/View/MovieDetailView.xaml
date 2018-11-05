@@ -38,15 +38,15 @@
         <DockPanel Grid.Row="8" Margin="10">
          <StackPanel DockPanel.Dock="Right">
             <Button Content="Add" Width="125" Margin="10"
-                    Command="{Binding AddDirectorCommand}"/>
+                    Command="{Binding AddActorCommand}"/>
                 <Button Content="Remove" Width="125" Margin="10"
-                     Command="{Binding RemoveDirectorCommand}"/>
+                     Command="{Binding RemoveActorCommand}"/>
             </StackPanel>
-            <DataGrid ItemsSource="{Binding Directors}" SelectedItem="{Binding SelectedDirector, Mode=TwoWay}"
+            <DataGrid ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor, Mode=TwoWay}"
                       AutoGenerateColumns="False"
                       RowHeaderWidth="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Directors" 
+                    <DataGridTextColumn Header="Actors" 
                                         Width="*" 
                                         ElementStyle="{StaticResource DataGridColumnStyle}"
                                         EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"

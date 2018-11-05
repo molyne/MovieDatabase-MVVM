@@ -20,7 +20,7 @@ namespace MovieDatabase.UI.ViewModel
         private readonly IMessageDialogService _messageDialogService;
         private readonly IGenreLookupDataService _genreLookupDataService;
         private MovieWrapper _movie;
-        private DirectorWrapper _selectedDirector;
+        private ActorWrapper _selectedActor;
 
         public MovieDetailViewModel(IMovieRepository movieRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IGenreLookupDataService genreLookupDataService)
         : base(eventAggregator)
@@ -29,15 +29,15 @@ namespace MovieDatabase.UI.ViewModel
             _messageDialogService = messageDialogService;
             _genreLookupDataService = genreLookupDataService;
 
-            AddDirectorCommand = new DelegateCommand(OnAddDirectorExecute);
-            RemoveDirectorCommand = new DelegateCommand(OnRemoveDirectorExecute, OnRemoveDirectorCanExecute);
+            AddActorCommand = new DelegateCommand(OnAddActorExecute);
+            RemoveActorCommand = new DelegateCommand(OnRemoveActorExecute, OnRemoveActorCanExecute);
 
             Genres = new ObservableCollection<LookupItem>();
-            Directors = new ObservableCollection<DirectorWrapper>();
+            Actors = new ObservableCollection<ActorWrapper>();
         }
 
         public ObservableCollection<LookupItem> Genres { get; set; }
-        public ObservableCollection<DirectorWrapper> Directors { get; }
+        public ObservableCollection<ActorWrapper> Actors { get; }
 
         public override async Task LoadAsync(int? movieId)
         {
@@ -47,7 +47,7 @@ namespace MovieDatabase.UI.ViewModel
 
             InitializeMovie(movie);
 
-            InitializeDirectors(movie.Directors);
+            InitializeActors(movie.Actors);
 
             await LoadGenresLookupAsync();
         }
@@ -62,17 +62,17 @@ namespace MovieDatabase.UI.ViewModel
             }
         }
 
-        public ICommand AddDirectorCommand { get; }
-        public ICommand RemoveDirectorCommand { get; }
+        public ICommand AddActorCommand { get; }
+        public ICommand RemoveActorCommand { get; }
 
-        public DirectorWrapper SelectedDirector
+        public ActorWrapper SelectedActor
         {
-            get => _selectedDirector;
+            get => _selectedActor;
             set
             {
-                _selectedDirector = value;
+                _selectedActor = value;
                 OnPropertyChanged();
-                ((DelegateCommand)RemoveDirectorCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)RemoveActorCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -80,7 +80,7 @@ namespace MovieDatabase.UI.ViewModel
         {
             return Movie != null
                    && !Movie.HasErrors
-                   && Directors.All(d => !d.HasErrors)
+                   && Actors.All(d => !d.HasErrors)
                    && HasChanges;
         }
 
@@ -148,55 +148,55 @@ namespace MovieDatabase.UI.ViewModel
             }
         }
 
-        private void OnRemoveDirectorExecute()
+        private void OnRemoveActorExecute()
         {
-            SelectedDirector.PropertyChanged -= DirectorWrapper_PropertyChanged;
-            _movieRepository.RemoveDirector(SelectedDirector.Model);
-            Directors.Remove(SelectedDirector);
-            SelectedDirector = null;
+            SelectedActor.PropertyChanged -= ActorWrapper_PropertyChanged;
+            _movieRepository.RemoveDirector(SelectedActor.Model);
+            Actors.Remove(SelectedActor);
+            SelectedActor = null;
             HasChanges = _movieRepository.HasChanges();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
-        private bool OnRemoveDirectorCanExecute()
+        private bool OnRemoveActorCanExecute()
         {
-            return SelectedDirector != null;
+            return SelectedActor != null;
         }
 
-        private void OnAddDirectorExecute()
+        private void OnAddActorExecute()
         {
-            var newDirector = new DirectorWrapper(new Director());
-            newDirector.PropertyChanged += DirectorWrapper_PropertyChanged;
-            Directors.Add(newDirector);
-            Movie.Model.Directors.Add(newDirector.Model);
-            newDirector.Name = ""; //Trigger validation
+            var newActor = new ActorWrapper(new Actor());
+            newActor.PropertyChanged += ActorWrapper_PropertyChanged;
+            Actors.Add(newActor);
+            Movie.Model.Actors.Add(newActor.Model);
+            newActor.Name = ""; //Trigger validation
         }
 
-        private void DirectorWrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ActorWrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
                 HasChanges = _movieRepository.HasChanges();
             }
 
-            if (e.PropertyName == nameof(DirectorWrapper.HasErrors))
+            if (e.PropertyName == nameof(ActorWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
-        private void InitializeDirectors(ICollection<Director> directors)
+        private void InitializeActors(ICollection<Actor> actors)
         {
-            foreach (var wrapper in Directors)
+            foreach (var wrapper in Actors)
             {
-                wrapper.PropertyChanged -= DirectorWrapper_PropertyChanged;
+                wrapper.PropertyChanged -= ActorWrapper_PropertyChanged;
             }
-            Directors.Clear();
-            foreach (var director in directors)
+            Actors.Clear();
+            foreach (var actor in actors)
             {
-                var wrapper = new DirectorWrapper(director);
-                Directors.Add(wrapper);
-                wrapper.PropertyChanged += DirectorWrapper_PropertyChanged;
+                var wrapper = new ActorWrapper(actor);
+                Actors.Add(wrapper);
+                wrapper.PropertyChanged += ActorWrapper_PropertyChanged;
             }
         }
     }

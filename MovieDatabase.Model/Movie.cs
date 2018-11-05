@@ -9,7 +9,7 @@ namespace MovieDatabase.Model
     {
         public Movie()
         {
-            Directors = new Collection<Director>();
+            Actors = new Collection<Actor>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace MovieDatabase.Model
 
         public TimeSpan Duration { get; set; }
 
-        public ICollection<Director> Directors { get; set; }
+        public ICollection<Actor> Actors { get; set; }
 
         public int? MovieGenreId { get; set; }
         public Genre MovieGenre { get; set; }

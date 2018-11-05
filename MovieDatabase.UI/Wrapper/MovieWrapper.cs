@@ -24,9 +24,9 @@ namespace MovieDatabase.UI.Wrapper
             set => SetValue(value);
         }
 
-        public Director Director
+        public Actor Actor
         {
-            get => GetValue<Director>();
+            get => GetValue<Actor>();
             set => SetValue(value);
         }
 

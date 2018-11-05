@@ -2,7 +2,7 @@
 
 namespace MovieDatabase.Model
 {
-    public class Director
+    public class Actor
     {
         public int Id { get; set; }
         [Required]

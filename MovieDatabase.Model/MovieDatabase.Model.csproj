@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Director.cs" />
+    <Compile Include="Actor.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="LookupItem.cs" />
     <Compile Include="Movie.cs" />

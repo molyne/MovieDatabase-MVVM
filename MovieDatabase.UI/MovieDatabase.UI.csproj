@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="View\Services\IMessageDialogService.cs" />
     <Compile Include="View\Services\MessageDialogService.cs" />
-    <Compile Include="Wrapper\DirectorWrapper.cs" />
+    <Compile Include="Wrapper\ActorWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\MovieWrapper.cs" />
     <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />

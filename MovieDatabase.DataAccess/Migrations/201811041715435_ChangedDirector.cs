@@ -7,16 +7,16 @@ namespace MovieDatabase.DataAccess.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.Directors", "Name", c => c.String(nullable: false, maxLength: 50));
-            DropColumn("dbo.Directors", "FirstName");
-            DropColumn("dbo.Directors", "LastName");
+            AddColumn("dbo.Actors", "Name", c => c.String(nullable: false, maxLength: 50));
+            DropColumn("dbo.Actors", "FirstName");
+            DropColumn("dbo.Actors", "LastName");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Directors", "LastName", c => c.String());
-            AddColumn("dbo.Directors", "FirstName", c => c.String(nullable: false, maxLength: 50));
-            DropColumn("dbo.Directors", "Name");
+            AddColumn("dbo.Actors", "LastName", c => c.String());
+            AddColumn("dbo.Actors", "FirstName", c => c.String(nullable: false, maxLength: 50));
+            DropColumn("dbo.Actors", "Name");
         }
     }
 }
