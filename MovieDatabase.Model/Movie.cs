@@ -17,7 +17,8 @@ namespace MovieDatabase.Model
         [StringLength(50)]
         public string Title { get; set; }
 
-        [StringLength(200)]
+        [Required]
+        [StringLength(250)]
         public string Description { get; set; }
 
         [Required]

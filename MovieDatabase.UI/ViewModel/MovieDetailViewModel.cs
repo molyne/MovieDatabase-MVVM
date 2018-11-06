@@ -134,6 +134,7 @@ namespace MovieDatabase.UI.ViewModel
             {
                 //Little trick to trigger the validation
                 Movie.Title = "";
+                Movie.Description = "";
             }
         }
 

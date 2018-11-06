@@ -7,13 +7,13 @@ namespace MovieDatabase.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ChangedDirectorToActor : IMigrationMetadata
+    public sealed partial class Initial1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedDirectorToActor));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811051237458_ChangedDirectorToActor"; }
+            get { return "201811061618189_Initial1"; }
         }
         
         string IMigrationMetadata.Source

@@ -47,37 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201810271223454_Initial.cs" />
-    <Compile Include="Migrations\201810271223454_Initial.Designer.cs">
-      <DependentUpon>201810271223454_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201811061538518_Initial.cs" />
+    <Compile Include="Migrations\201811061538518_Initial.Designer.cs">
+      <DependentUpon>201811061538518_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810301939406_addedValidations.cs" />
-    <Compile Include="Migrations\201810301939406_addedValidations.Designer.cs">
-      <DependentUpon>201810301939406_addedValidations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811041305116_AddedGenres.cs" />
-    <Compile Include="Migrations\201811041305116_AddedGenres.Designer.cs">
-      <DependentUpon>201811041305116_AddedGenres.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811041431297_AddedDuration.cs" />
-    <Compile Include="Migrations\201811041431297_AddedDuration.Designer.cs">
-      <DependentUpon>201811041431297_AddedDuration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811041715435_ChangedDirector.cs" />
-    <Compile Include="Migrations\201811041715435_ChangedDirector.Designer.cs">
-      <DependentUpon>201811041715435_ChangedDirector.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811051237458_ChangedDirectorToActor.cs" />
-    <Compile Include="Migrations\201811051237458_ChangedDirectorToActor.Designer.cs">
-      <DependentUpon>201811051237458_ChangedDirectorToActor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811051821298_AddedPropToMovie.cs" />
-    <Compile Include="Migrations\201811051821298_AddedPropToMovie.Designer.cs">
-      <DependentUpon>201811051821298_AddedPropToMovie.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811061346465_ChangedPropMovieDescription.cs" />
-    <Compile Include="Migrations\201811061346465_ChangedPropMovieDescription.Designer.cs">
-      <DependentUpon>201811061346465_ChangedPropMovieDescription.cs</DependentUpon>
+    <Compile Include="Migrations\201811061618189_Initial1.cs" />
+    <Compile Include="Migrations\201811061618189_Initial1.Designer.cs">
+      <DependentUpon>201811061618189_Initial1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MovieDatabaseDbContext.cs" />
@@ -94,29 +70,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810271223454_Initial.resx">
-      <DependentUpon>201810271223454_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811061538518_Initial.resx">
+      <DependentUpon>201811061538518_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301939406_addedValidations.resx">
-      <DependentUpon>201810301939406_addedValidations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811041305116_AddedGenres.resx">
-      <DependentUpon>201811041305116_AddedGenres.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811041431297_AddedDuration.resx">
-      <DependentUpon>201811041431297_AddedDuration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811041715435_ChangedDirector.resx">
-      <DependentUpon>201811041715435_ChangedDirector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811051237458_ChangedDirectorToActor.resx">
-      <DependentUpon>201811051237458_ChangedDirectorToActor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811051821298_AddedPropToMovie.resx">
-      <DependentUpon>201811051821298_AddedPropToMovie.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811061346465_ChangedPropMovieDescription.resx">
-      <DependentUpon>201811061346465_ChangedPropMovieDescription.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811061618189_Initial1.resx">
+      <DependentUpon>201811061618189_Initial1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
