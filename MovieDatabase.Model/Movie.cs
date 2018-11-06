@@ -17,7 +17,8 @@ namespace MovieDatabase.Model
         [StringLength(50)]
         public string Title { get; set; }
 
-        public TimeSpan Duration { get; set; }
+        [StringLength(200)]
+        public string Description { get; set; }
 
         [Required]
         public DateTime ReleaseDate { get; set; } = DateTime.Now;

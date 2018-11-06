@@ -9,7 +9,7 @@
         xmlns:viewModel="clr-namespace:MovieDatabase.UI.ViewModel"
 
         mc:Ignorable="d"
-        Title="MovieDatabase" Height="650" Width="1000" FontSize="20" WindowStartupLocation="CenterScreen">
+        Title="MovieDatabase" Height="700" Width="1000" FontSize="20" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:MovieDetailViewModel}">
             <view:MovieDetailView/>
@@ -32,6 +32,5 @@
         </Menu>
         <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationViewModel}"/>
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailViewModel}"/>
-        
     </Grid>
 </Controls:MetroWindow>

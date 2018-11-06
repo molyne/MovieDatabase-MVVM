@@ -18,9 +18,9 @@ namespace MovieDatabase.UI.Wrapper
             set => SetValue(value);
         }
 
-        public TimeSpan Duration
+        public string Description
         {
-            get => GetValue<TimeSpan>();
+            get => GetValue<string>(nameof(Description));
             set => SetValue(value);
         }
 

@@ -23,8 +23,8 @@
         <Label Content="Title" Margin="10 10 10 0"/>
         <TextBox Grid.Row="1" Text="{Binding Movie.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-        <Label Grid.Row="2" Content="Duration" Margin="10 0"/>
-        <TextBox Grid.Row="3" Text="{Binding Movie.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+        <Label Grid.Row="2" Content="Description" Margin="10 0"/>
+        <TextBox Grid.Row="3" Text="{Binding Movie.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100"/>
 
         <Label Grid.Row="4" Content="Release date" Margin="10 0"/>
         <DatePicker Grid.Row="5" SelectedDate="{Binding Movie.ReleaseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>

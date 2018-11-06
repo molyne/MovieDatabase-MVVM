@@ -22,7 +22,7 @@ namespace MovieDatabase.DataAccess.Migrations
 
 
             context.Movies.AddOrUpdate(movie => movie.Title,
-                new Movie { Title = "Harry Potter och de vises sten", ReleaseDate = new DateTime(2001, 11, 23) },
+                new Movie { Title = "Harry Potter och de vises sten", ReleaseDate = new DateTime(2001, 11, 23), Description = "An orphaned boy enrolls in a school of wizardry, where he learns the truth about himself, his family and the terrible evil that haunts the magical world." },
                 new Movie { Title = "Star Wars", ReleaseDate = new DateTime(2001, 11, 23) },
                 new Movie { Title = "Lejonkungen", ReleaseDate = new DateTime(2001, 11, 23) },
                 new Movie { Title = "Mr Bean" });
