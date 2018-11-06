@@ -36,6 +36,12 @@ namespace MovieDatabase.UI.Wrapper
             set => SetValue(value);
         }
 
+        public DateTime ReleaseDate
+        {
+            get => GetValue<DateTime>();
+            set => SetValue(value);
+        }
+
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
@@ -49,5 +55,6 @@ namespace MovieDatabase.UI.Wrapper
                     break;
             }
         }
+
     }
 }

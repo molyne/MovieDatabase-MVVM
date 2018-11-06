@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MovieDatabase.UI.View"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -25,8 +26,8 @@
         <Label Grid.Row="2" Content="Duration" Margin="10 0"/>
         <TextBox Grid.Row="3" Text="{Binding Movie.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-        <Label Grid.Row="4" Content="test" Margin="10 0"/>
-        <TextBox Grid.Row="5" Text="test" Margin="10 0 10 10"/>
+        <Label Grid.Row="4" Content="Release date" Margin="10 0"/>
+        <DatePicker Grid.Row="5" SelectedDate="{Binding Movie.ReleaseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
         <Label Grid.Row="6" Content="Genre" Margin="10 0"/>
         <ComboBox Grid.Row="7" ItemsSource="{Binding Genres}" 

@@ -1,4 +1,5 @@
 using MovieDatabase.Model;
+using System;
 using System.Linq;
 
 namespace MovieDatabase.DataAccess.Migrations
@@ -21,9 +22,9 @@ namespace MovieDatabase.DataAccess.Migrations
 
 
             context.Movies.AddOrUpdate(movie => movie.Title,
-                new Movie { Title = "Harry Potter och de vises sten" },
-                new Movie { Title = "Star Wars" },
-                new Movie { Title = "Lejonkungen" },
+                new Movie { Title = "Harry Potter och de vises sten", ReleaseDate = new DateTime(2001, 11, 23) },
+                new Movie { Title = "Star Wars", ReleaseDate = new DateTime(2001, 11, 23) },
+                new Movie { Title = "Lejonkungen", ReleaseDate = new DateTime(2001, 11, 23) },
                 new Movie { Title = "Mr Bean" });
 
             context.Genres.AddOrUpdate(g => g.Name,

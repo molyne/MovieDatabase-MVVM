@@ -71,6 +71,10 @@
     <Compile Include="Migrations\201811051237458_ChangedDirectorToActor.Designer.cs">
       <DependentUpon>201811051237458_ChangedDirectorToActor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811051821298_AddedPropToMovie.cs" />
+    <Compile Include="Migrations\201811051821298_AddedPropToMovie.Designer.cs">
+      <DependentUpon>201811051821298_AddedPropToMovie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MovieDatabaseDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811051237458_ChangedDirectorToActor.resx">
       <DependentUpon>201811051237458_ChangedDirectorToActor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811051821298_AddedPropToMovie.resx">
+      <DependentUpon>201811051821298_AddedPropToMovie.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

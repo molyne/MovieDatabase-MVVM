@@ -1,4 +1,5 @@
 ﻿using MovieDatabase.Model;
+using System;
 using System.Data.Entity;
 
 namespace MovieDatabase.DataAccess
@@ -17,6 +18,8 @@ namespace MovieDatabase.DataAccess
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
         }
     }
 }

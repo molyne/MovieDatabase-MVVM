@@ -93,8 +93,8 @@ namespace MovieDatabase.UI.ViewModel
 
         protected override async void OnDeleteExecute()
         {
-            var result =
-                _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the movie {Movie.Title}?",
+            var result = await
+                _messageDialogService.ShowOkCancelDialogAsync($"Do you really want to delete the movie {Movie.Title}?",
                     "Question");
 
             if (result == MessageDialogResult.OK)
@@ -199,5 +199,6 @@ namespace MovieDatabase.UI.ViewModel
                 wrapper.PropertyChanged += ActorWrapper_PropertyChanged;
             }
         }
+
     }
 }

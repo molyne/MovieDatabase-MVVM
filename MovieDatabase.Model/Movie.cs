@@ -19,6 +19,9 @@ namespace MovieDatabase.Model
 
         public TimeSpan Duration { get; set; }
 
+        [Required]
+        public DateTime ReleaseDate { get; set; } = DateTime.Now;
+
         public ICollection<Actor> Actors { get; set; }
 
         public int? MovieGenreId { get; set; }

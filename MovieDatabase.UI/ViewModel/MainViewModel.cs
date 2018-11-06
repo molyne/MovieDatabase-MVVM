@@ -50,7 +50,7 @@ namespace MovieDatabase.UI.ViewModel
         {
             if (DetailViewModel != null && DetailViewModel.HasChanges)
             {
-                var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
+                var result = await _messageDialogService.ShowOkCancelDialogAsync("You've made changes. Navigate away?", "Question");
                 if (result == MessageDialogResult.Cancel)
                 {
                     return;
